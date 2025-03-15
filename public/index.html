@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>felinoIot</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "https://myiot-5a297-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+</head>
+<body>
+    <h1>ECM-Controller</h1>
+    <table id="data-table">
+        <thead>
+            <tr>
+            <th>Key</th>
+            <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        const database = firebase.database();
+        const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+
+        function updateTable(data) {
+            tableBody.innerHTML = ''; // Clear existing data
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const row = tableBody.insertRow();
+                    const cellKey = row.insertCell(0);
+                    const cellValue = row.insertCell(1);
+                    cellKey.textContent = key;
+                    cellValue.textContent = JSON.stringify(data[key]);
+                }
+            }
+        }
+
+        const ref = database.ref().orderByKey().startAt("master").endAt("master\uf8ff");
+        ref.on('value', (snapshot) => {
+            const data = snapshot.val();
+            updateTable(data);
+        }, (error) => {
+            console.error('Error fetching data:', error);
+        });
+    </script>
+</body>
+</html>
+<script>
+    function updateTable(data) {
+        tableBody.innerHTML = ''; // Clear existing data
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const row = tableBody.insertRow();
+                const cellKey = row.insertCell(0);
+                const cellValue = row.insertCell(1);
+                cellKey.textContent = key;
+
+                if (typeof data[key] === 'object') {
+                    const ul = document.createElement('ul');
+                    for (const subKey in data[key]) {
+                        if (data[key].hasOwnProperty(subKey)) {
+                            const li = document.createElement('li');
+                            if (subKey === 'img' || subKey === 'photo') {
+                                const img = document.createElement('img');
+                                img.src = data[key][subKey];
+                                img.alt = 'Image';
+                                img.style.maxWidth = '100px';
+                                li.appendChild(img);
+                            } else {
+                                li.textContent = `${subKey}: ${data[key][subKey]}`;
+                                if (subKey === 'suhunesin') {
+                                    li.style.color = 'red';
+                                }
+                            }
+                            ul.appendChild(li);
+                        }
+                    }
+                    cellValue.appendChild(ul);
+                } else {
+                    cellValue.textContent = JSON.stringify(data[key]);
+                    if (key === 'suhunesin') {
+                        cellValue.style.color = 'red';
+                    }
+                }
+            }
+        }
+    }
+</script>
+<script>
+    function updateTable(data) {
+        tableBody.innerHTML = ''; // Clear existing data
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const row = tableBody.insertRow();
+                const cellKey = row.insertCell(0);
+                const cellValue = row.insertCell(1);
+                cellKey.textContent = key;
+
+                if (typeof data[key] === 'object') {
+                    const ul = document.createElement('ul');
+                    for (const subKey in data[key]) {
+                        if (data[key].hasOwnProperty(subKey)) {
+                            const li = document.createElement('li');
+                            if (subKey === 'img' || subKey === 'photo') {
+                                const img = document.createElement('img');
+                                img.src = data[key][subKey];
+                                img.alt = 'Image';
+                                img.style.maxWidth = '100px';
+                                li.appendChild(img);
+                            } else {
+                                li.textContent = `${subKey}: ${data[key][subKey]}`;
+                                if (subKey === 'suhunesin') {
+                                    li.style.color = 'red';
+                                }
+                            }
+                            ul.appendChild(li);
+                        }
+                    }
+                    cellValue.appendChild(ul);
+                } else {
+                    cellValue.textContent = JSON.stringify(data[key]);
+                    if (key === 'suhunesin') {
+                        cellValue.style.color = 'red';
+                    }
+                }
+            }
+        }
+    }
+
+    const ref = database.ref().orderByKey().startAt("master").endAt("master\uf8ff");
+    ref.on('value', (snapshot) => {
+        const data = snapshot.val();
+        updateTable(data);
+    }, (error) => {
+        console.error('Error fetching data:', error);
+    });
+</script></script>
+<script>
+    const database = firebase.database();
+    const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+
+    function updateTable(data) {
+        tableBody.innerHTML = ''; // Clear existing data
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const row = tableBody.insertRow();
+                const cellKey = row.insertCell(0);
+                const cellValue = row.insertCell(1);
+                cellKey.textContent = key;
+
+                if (typeof data[key] === 'object') {
+                    const ul = document.createElement('ul');
+                    for (const subKey in data[key]) {
+                        if (data[key].hasOwnProperty(subKey)) {
+                            const li = document.createElement('li');
+                            if (subKey === 'img' || subKey === 'photo') {
+                                const img = document.createElement('img');
+                                img.src = data[key][subKey];
+                                img.alt = 'Image';
+                                img.style.maxWidth = '100px';
+                                li.appendChild(img);
+                            } else {
+                                li.textContent = `${subKey}: ${data[key][subKey]}`;
+                                if (subKey === 'suhunesin') {
+                                    li.style.color = 'red';
+                                }
+                            }
+                            ul.appendChild(li);
+                        }
+                    }
+                    cellValue.appendChild(ul);
+                } else {
+                    cellValue.textContent = JSON.stringify(data[key]);
+                    if (key === 'suhunesin') {
+                        cellValue.style.color = 'red';
+                    }
+                }
+            }
+        }
+    }
+
+    const ref = database.ref().orderByKey().startAt("master").endAt("master\uf8ff");
+    ref.on('value', (snapshot) => {
+        const data = snapshot.val();
+        updateTable(data);
+    }, (error) => {
+        console.error('Error fetching data:', error);
+    });
+</script></script>ninofelino12
